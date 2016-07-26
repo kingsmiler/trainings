@@ -13,6 +13,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>mvn-assembly-examples</module>
+        <module>mvn-antrun-example</module>
     </modules>
 
 

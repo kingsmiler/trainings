@@ -28,6 +28,11 @@
                 <include>README.md</include>
             </includes>
         </fileSet>
+
+        <!--
+        Adds startup scripts to the root directory of zip package. The startup
+        scripts are from the src/main/scripts directory.
+        -->
         <fileSet>
             <directory>${project.build.scriptSourceDirectory}</directory>
             <outputDirectory>bin</outputDirectory>
@@ -37,6 +42,7 @@
                 <include>*.sh</include>
             </includes>
         </fileSet>
+
         <fileSet>
             <directory>src/main/resources</directory>
             <outputDirectory>conf</outputDirectory>
