@@ -35,6 +35,9 @@
         <plugin.source.version>3.0.1</plugin.source.version>
         <plugin.assembly.version>2.6</plugin.assembly.version>
         <plugin.antrun.version>1.8</plugin.antrun.version>
+        <plugin.resources.version>3.0.1</plugin.resources.version>
+        <plugin.findbugs.version>3.0.4</plugin.findbugs.version>
+        <plugin.xml.version>1.0.1</plugin.xml.version>
 
     </properties>
 
@@ -161,6 +164,31 @@
                             <version>${ant.version}</version>
                         </dependency>
                     </dependencies>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <version>${plugin.resources.version}</version>
+                    <configuration>
+                        <encoding>${project.build.sourceEncoding}</encoding>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>findbugs-maven-plugin</artifactId>
+                    <version>${plugin.findbugs.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>xml-maven-plugin</artifactId>
+                    <version>${plugin.xml.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-project-info-reports-plugin</artifactId>
+                    <version>2.9</version>
                 </plugin>
             </plugins>
         </pluginManagement>
