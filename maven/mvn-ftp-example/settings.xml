@@ -1,0 +1,33 @@
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
+    <servers>
+        <server>
+            <id>css</id>
+            <username>wagon</username>
+            <password>wagon</password>
+            <!-- If you want deploy to active FTP server, uncomment the following block -->
+             <configuration>
+               <passiveMode>false</passiveMode>
+             </configuration>
+        </server>
+        <server>
+            <id>images</id>
+            <username>wagon</username>
+            <password>wagon</password>
+            <!-- If you want deploy to active FTP server, uncomment the following block -->
+             <configuration>
+               <passiveMode>false</passiveMode>
+             </configuration>
+        </server>
+        <server>
+            <id>war</id>
+            <username>wagon</username>
+            <password>wagon</password>
+            <!-- If you want deploy to active FTP server, uncomment the following block -->
+             <configuration>
+               <passiveMode>false</passiveMode>
+             </configuration>
+        </server>
+    </servers>
+</settings>

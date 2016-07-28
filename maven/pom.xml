@@ -16,6 +16,7 @@
         <module>mvn-antrun-example</module>
         <module>mvn-findbugs-example</module>
         <module>mvn-pmd-example</module>
+        <module>mvn-ftp-example</module>
     </modules>
 
 

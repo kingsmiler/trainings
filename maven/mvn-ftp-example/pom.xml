@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>maven</artifactId>
+        <groupId>org.xman.trainings</groupId>
+        <version>1.0.0</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>mvn-ftp-example</artifactId>
+
+    <properties>
+        <!-- Settings for CSS files -->
+        <css.local.dir>${basedir}/src/main/webapp/styles</css.local.dir>
+        <css.remote.dir></css.remote.dir>
+        <css.remote.server.id>css</css.remote.server.id>
+        <css.remote.url>ftp://127.0.0.1/css/</css.remote.url>
+
+        <!-- Settings for image files -->
+        <images.local.dir>${basedir}/src/main/webapp/images</images.local.dir>
+        <images.remote.dir></images.remote.dir>
+        <images.remote.server.id>images</images.remote.server.id>
+        <images.remote.url>ftp://127.0.0.1/images/</images.remote.url>
+
+        <!-- Settings for War files-->
+        <war.local.dir>${basedir}/target</war.local.dir>
+        <war.remote.dir></war.remote.dir>
+        <war.remote.server.id>war</war.remote.server.id>
+        <war.remote.url>ftp://127.0.0.1/war/</war.remote.url>
+    </properties>
+
+
+    <build>
+        <finalName>wagon</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>wagon-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>upload-css</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>upload</goal>
+                        </goals>
+                        <configuration>
+                            <fromDir>${css.local.dir}</fromDir>
+                            <includes>*</includes>
+                            <url>${css.remote.url}</url>
+                            <toDir>${css.remote.dir}</toDir>
+                            <serverId>${css.remote.server.id}</serverId>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>upload-images</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>upload</goal>
+                        </goals>
+                        <configuration>
+                            <fromDir>${images.local.dir}</fromDir>
+                            <includes>*</includes>
+                            <url>${images.remote.url}</url>
+                            <toDir>${images.remote.dir}</toDir>
+                            <serverId>${images.remote.server.id}</serverId>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>upload-war</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>upload</goal>
+                        </goals>
+                        <configuration>
+                            <fromDir>${war.local.dir}</fromDir>
+                            <includes>*.war</includes>
+                            <url>${war.remote.url}</url>
+                            <toDir>${war.remote.dir}</toDir>
+                            <serverId>${war.remote.server.id}</serverId>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <!-- REMOVE STYLE AND IMAGE FILES FROM WAR -->
+                <configuration>
+                    <warSourceExcludes>
+                        styles/*, images/*
+                    </warSourceExcludes>
+                </configuration>
+
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
