@@ -1,0 +1,12 @@
+CREATE DATABASE IF NOT EXISTS `emoji`
+  DEFAULT CHARACTER SET utf8mb4;
+
+USE emoji;
+
+DROP TABLE IF EXISTS `comment`;
+CREATE TABLE `comment` (
+  `id`      BIGINT(20)   NOT NULL PRIMARY KEY,
+  `content` VARCHAR(256) NOT NULL
+)
+  ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4;
