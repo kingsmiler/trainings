@@ -54,6 +54,7 @@
         <module>mockito</module>
         <module>maven</module>
         <module>orm</module>
+        <module>configuration</module>
     </modules>
 
     <dependencyManagement>
@@ -88,6 +89,17 @@
                 <artifactId>junit</artifactId>
                 <version>${junit.version}</version>
                 <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>com.thoughtworks.xstream</groupId>
+                <artifactId>xstream</artifactId>
+                <version>1.4.9</version>
+            </dependency>
+            <dependency>
+                <groupId>org.codehaus.jettison</groupId>
+                <artifactId>jettison</artifactId>
+                <version>1.3.8</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
