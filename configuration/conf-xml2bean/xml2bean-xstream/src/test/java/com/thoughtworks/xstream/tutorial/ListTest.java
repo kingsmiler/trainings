@@ -19,7 +19,7 @@ public class ListTest {
     @Test
     public void createXMlFromObject() throws MalformedURLException {
         JazzArtist2 artist2 = new JazzArtist2("Benny Goodman",
-                false, new URL("http://www.bennygoodman.com/"));
+                true, new URL("http://www.bennygoodman.com/"));
         Album2 album3 = new Album2("In Stockholm", 5, 1959,"swing");
         Album2 album4 = new Album2("A Jazz Holiday", 3, 1928,"swing");
         artist2.addAlbum(album3);
@@ -36,7 +36,7 @@ public class ListTest {
 class JazzArtist2 {
     public String name;
     @XStreamConverter(value = BooleanConverter.class,
-            booleans = { true }/*is case sensitive*/,
+            booleans = { true, false },
             strings = { "Yes", "No" })
     public boolean isAlive;
     public URL url;
