@@ -33,11 +33,29 @@ public class XStreamJsonHierarchicalTest {
         Assert.assertNotNull(dataJson);
     }
 
+    @Test
+    public void testDropRoot() {
+        customer = SimpleDataGeneration.generateData();
+
+        SimpleXstreamInitializer simpleXstreamInitializer = new SimpleXstreamInitializer();
+        xstream = simpleXstreamInitializer.getXstreamJsonHierarchicalDropRootInstance();
+        xstream.processAnnotations(Customer.class);
+
+        xstream.alias("customer", Customer.class);
+        xstream.alias("contactDetails", ContactDetails.class);
+        xstream.aliasField("fn", Customer.class, "firstName");
+        dataJson = xstream.toXML(customer);
+        System.out.println(dataJson);
+
+        Assert.assertNotNull(dataJson);
+    }
+
     @Test(expected = UnsupportedOperationException.class)
     public void convertJsonToObject() {
         customer = SimpleDataGeneration.generateData();
         dataJson = xstream.toXML(customer);
         customer = (Customer) xstream.fromXML(dataJson);
+
         Assert.assertNotNull(customer);
     }
 
