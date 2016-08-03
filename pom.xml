@@ -14,7 +14,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.test.skip>true</maven.test.skip>
 
-        <spring.version>4.3.1.RELEASE</spring.version>
+        <spring.version>4.3.2.RELEASE</spring.version>
         <springockito.version>1.0.9</springockito.version>
         <jmock.version>2.6.0</jmock.version>
         <powermock.version>1.5.4</powermock.version>
@@ -56,6 +56,7 @@
         <module>orm</module>
         <module>configuration</module>
         <module>dates</module>
+        <module>spring</module>
     </modules>
 
     <dependencies>
@@ -108,6 +109,23 @@
                 <groupId>org.codehaus.jettison</groupId>
                 <artifactId>jettison</artifactId>
                 <version>1.3.8</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-context</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-test</artifactId>
+                <version>${spring.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-context-support</artifactId>
+                <version>${spring.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
