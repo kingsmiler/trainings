@@ -16,6 +16,7 @@
         <module>springmvc-javaconfig</module>
         <module>spring-beans-collection</module>
         <module>spring-custom-editor</module>
+        <module>spring-property-placeholder</module>
     </modules>
 
     <dependencies>
