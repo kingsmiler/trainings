@@ -1,0 +1,38 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans.xsd
+            http://www.springframework.org/schema/util
+            http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <bean id="CustomerListBean" class="org.xman.trainings.spring.model.Customer">
+        <property name="lists">
+            <util:list list-class="java.util.ArrayList">
+                <value>1</value>
+                <value>2</value>
+                <value>3</value>
+            </util:list>
+        </property>
+    </bean>
+
+    <bean id="CustomerSetBean" class="org.xman.trainings.spring.model.Customer">
+        <property name="sets">
+            <util:set set-class="java.util.HashSet">
+                <value>1</value>
+                <value>2</value>
+                <value>3</value>
+            </util:set>
+        </property>
+    </bean>
+
+    <bean id="CustomerMapBean" class="org.xman.trainings.spring.model.Customer">
+        <property name="maps">
+            <util:map map-class="java.util.HashMap">
+                <entry key="Key1" value="1" />
+                <entry key="Key2" value="2" />
+                <entry key="Key3" value="3" />
+            </util:map>
+        </property>
+    </bean>
+</beans>
