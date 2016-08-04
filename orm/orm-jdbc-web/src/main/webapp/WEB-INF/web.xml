@@ -8,6 +8,12 @@
     <display-name>jdbc</display-name>
 
     <servlet>
+        <servlet-name>postServlet</servlet-name>
+        <servlet-class>org.xman.jdbc.servlet.HttpClientPostServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <servlet>
         <servlet-name>EmojiTestServlet</servlet-name>
         <servlet-class>org.xman.jdbc.servlet.EmojiTestServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
@@ -16,6 +22,11 @@
     <servlet-mapping>
         <servlet-name>EmojiTestServlet</servlet-name>
         <url-pattern>/emoji</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>postServlet</servlet-name>
+        <url-pattern>/post</url-pattern>
     </servlet-mapping>
 
 </web-app>
