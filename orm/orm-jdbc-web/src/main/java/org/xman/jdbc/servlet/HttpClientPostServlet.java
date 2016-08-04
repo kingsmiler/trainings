@@ -9,11 +9,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
-import java.util.Properties;
 
 public class HttpClientPostServlet extends HttpServlet {
     private static final Logger log = LoggerFactory.getLogger(HttpClientPostServlet.class);
@@ -33,8 +31,7 @@ public class HttpClientPostServlet extends HttpServlet {
         response.setCharacterEncoding(CHAR_SET);
 
         String content = IOUtils.toString(request.getInputStream(), StandardCharsets.UTF_8);
-        System.out.println();
-        System.out.println(content);
+        System.out.println("port=" + request.getRemotePort());
 
         PrintWriter writer = response.getWriter();
         writer.write(content);

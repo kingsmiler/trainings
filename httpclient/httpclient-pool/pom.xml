@@ -11,11 +11,5 @@
 
     <artifactId>httpclient-pool</artifactId>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpcomponents-client</artifactId>
-        </dependency>
-    </dependencies>
 
 </project>
