@@ -17,6 +17,8 @@
         <module>spring-beans-collection</module>
         <module>spring-custom-editor</module>
         <module>spring-property-placeholder</module>
+        <module>spring-clound</module>
+        <module>spring-cloud</module>
     </modules>
 
     <dependencies>
