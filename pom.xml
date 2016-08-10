@@ -60,6 +60,7 @@
         <module>dates</module>
         <module>spring</module>
         <module>httpclient</module>
+        <module>jfinal</module>
     </modules>
 
     <dependencies>
