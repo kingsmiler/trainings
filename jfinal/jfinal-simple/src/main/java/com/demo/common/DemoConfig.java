@@ -71,7 +71,6 @@ public class DemoConfig extends JFinalConfig {
      * 配置处理器
      */
     public void configHandler(Handlers me) {
-        me.add(new StaticResourceHandler());
         me.add(new ContextPathHandler("ctx"));//得到工程路径
     }
 }

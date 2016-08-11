@@ -34,16 +34,6 @@
             <version>5.1.34</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.jooq</groupId>
-            <artifactId>jooq</artifactId>
-            <version>3.5.1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.jooq</groupId>
-            <artifactId>jooq-meta</artifactId>
-            <version>3.5.1</version>
-        </dependency>
     </dependencies>
 
     <build>
