@@ -15,6 +15,7 @@
         <module>jooq-manual</module>
         <module>jooq-amao</module>
         <module>jooq-spring-amao</module>
+        <module>jooq-spring-pk</module>
     </modules>
 
     <properties>
