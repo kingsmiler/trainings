@@ -13,6 +13,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>jooq-manual</module>
+        <module>jooq-amao</module>
     </modules>
 
     <properties>

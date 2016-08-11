@@ -37,6 +37,7 @@
                 <groupId>org.jooq</groupId>
                 <artifactId>jooq-codegen-maven</artifactId>
                 <version>${jooq.version}</version>
+                <!--插件的任务目标-->
                 <executions>
                     <execution>
                         <goals>
@@ -44,6 +45,7 @@
                         </goals>
                     </execution>
                 </executions>
+                <!--任务依赖包-->
                 <dependencies>
                     <dependency>
                         <groupId>mysql</groupId>
@@ -51,35 +53,40 @@
                         <version>${mysql.version}</version>
                     </dependency>
                 </dependencies>
+                <!--配置-->
                 <configuration>
+                    <!--配置JDBC连接情况-->
                     <jdbc>
                         <driver>${jdbc.driver}</driver>
                         <url>${jdbc.url}</url>
                         <user>${jdbc.user}</user>
                         <password>${jdbc.password}</password>
                     </jdbc>
+                    <!--配置生成器-->
                     <generator>
-                        <name>org.jooq.util.DefaultGenerator</name>
                         <database>
+                            <!--数据库类型-->
                             <name>org.jooq.util.mysql.MySQLDatabase</name>
-                            <includes>.*</includes>
-                            <excludes></excludes>
+                            <!--要生成源码的库的名称-->
                             <inputSchema>${jdbc.database.name}</inputSchema>
+                            <!--包含库中的哪些表-->
+                            <includes>.*</includes>
                         </database>
-                        <generate>
-                            <deprecated>false</deprecated>
-                        </generate>
+                        <!--输出配置-->
                         <target>
-                            <packageName>com.hascode.model</packageName>
+                            <!--生成代码的主目录-->
                             <directory>src/generated-sources</directory>
+                            <!--生成的代码放置到哪个包中-->
+                            <packageName>com.hascode.model</packageName>
                         </target>
                     </generator>
                 </configuration>
             </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
+                <!--构建时的瑞士军刀，将输出目录配置为源码目录-->
                 <artifactId>build-helper-maven-plugin</artifactId>
-                <version>1.8</version>
+                <version>1.12</version>
                 <executions>
                     <execution>
                         <id>add-source</id>
