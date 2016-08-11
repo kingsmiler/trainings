@@ -29,7 +29,9 @@
 
         <slf4j.version>1.7.21</slf4j.version>
         <logback.version>1.1.7</logback.version>
-        <ant.version>1.9.6</ant.version>
+        <ant.version>1.9.7</ant.version>
+        <jooq.version>3.8.4</jooq.version>
+        <mysql.version>5.1.39</mysql.version>
 
         <plugin.compiler.version>3.5.1</plugin.compiler.version>
         <plugin.jar.version>3.0.2</plugin.jar.version>
@@ -61,6 +63,7 @@
         <module>spring</module>
         <module>httpclient</module>
         <module>jfinal</module>
+        <module>jooq</module>
     </modules>
 
     <dependencies>
@@ -72,6 +75,22 @@
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>org.jooq</groupId>
+                <artifactId>jooq</artifactId>
+                <version>${jooq.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jooq</groupId>
+                <artifactId>jooq-meta</artifactId>
+                <version>${jooq.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jooq</groupId>
+                <artifactId>jooq-codegen</artifactId>
+                <version>${jooq.version}</version>
+            </dependency>
+
             <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-api</artifactId>
@@ -94,7 +113,7 @@
             <dependency>
                 <groupId>mysql</groupId>
                 <artifactId>mysql-connector-java</artifactId>
-                <version>5.1.39</version>
+                <version>${mysql.version}</version>
             </dependency>
 
             <dependency>
