@@ -1,0 +1,5 @@
+DROP DATABASE study;
+
+CREATE DATABASE study
+  COLLATE = 'utf8_general_ci'
+  DEFAULT CHARACTER SET = 'utf8';

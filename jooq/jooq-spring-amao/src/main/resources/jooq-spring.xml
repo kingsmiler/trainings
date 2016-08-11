@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+            http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:component-scan base-package="example"/>
+
+    <!-- 将多个配置文件读取到容器中，交给Spring管理 -->
+    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <!-- 这里支持多种寻址方式：classpath和file -->
+                <value>classpath:/config.properties</value>
+                <!-- 推荐使用file的方式引入，这样可以将配置和代码分离 -->
+                <!--<value>file:/opt/demo/config/demo-mq.properties</value>
+                <value>file:/opt/demo/config/demo-remote.properties</value>-->
+            </list>
+        </property>
+    </bean>
+
+    <!-- This is needed if you want to use the @Transactional annotation -->
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+
+    <bean id="dataSource"
+          class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
+        <constructor-arg>
+            <bean class="com.zaxxer.hikari.HikariConfig">
+                <property name="driverClassName" value="${jdbc.driverClassName}"/>
+                <property name="jdbcUrl"
+                          value="${jdbc.url}/${jdbc.schema}?useUnicode=true&amp;characterEncoding=UTF-8"/>
+                <property name="username" value="${jdbc.username}"/>
+                <property name="password" value="${jdbc.password}"/>
+                <property name="connectionTestQuery" value="${jdbc.connectionTestQuery}"/>
+                <property name="connectionTimeout" value="${jdbc.connectionTimeout}"/>
+                <property name="idleTimeout" value="${jdbc.idleTimeout}"/>
+                <property name="maxLifetime" value="${jdbc.maxLifetime}"/>
+                <property name="maximumPoolSize" value="${jdbc.maximumPoolSize}"/>
+                <property name="minimumIdle" value="${jdbc.minimumIdle}"/>
+                <property name="autoCommit" value="false"/>
+                <!--默认事务隔离级别-->
+                <property name="transactionIsolation" value="TRANSACTION_REPEATABLE_READ"/>
+            </bean>
+        </constructor-arg>
+    </bean>
+
+    <!-- Configure Spring's transaction manager to use a DataSource -->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="springTransactionProvider" class="example.framework.layer.rdbms.transaction.SpringTransactionProvider"/>
+
+    <bean id="springExceptionTranslationExecuteListener"
+          class="example.framework.layer.rdbms.transaction.SpringExceptionTranslationExecuteListener"/>
+
+    <bean id="springTransactionConnectionProvider"
+          class="example.framework.layer.rdbms.transaction.SpringTransactionConnectionProvider">
+        <constructor-arg ref="dataSource"/>
+    </bean>
+
+    <bean id="jooqTransactionFactory" class="example.framework.layer.rdbms.transaction.JooqTransactionFactory"
+          scope="prototype">
+        <constructor-arg ref="springTransactionConnectionProvider"/>
+        <constructor-arg ref="springTransactionProvider"/>
+        <constructor-arg ref="springExceptionTranslationExecuteListener"/>
+    </bean>
+
+</beans>
