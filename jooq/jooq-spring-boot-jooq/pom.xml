@@ -82,7 +82,7 @@
                 <artifactId>sql-maven-plugin</artifactId>
                 <version>${plugin.sql.version}</version>
                 <configuration>
-                    <skip>${maven.test.skip}</skip>
+                    <skip>false</skip>
                 </configuration>
 
                 <executions>
