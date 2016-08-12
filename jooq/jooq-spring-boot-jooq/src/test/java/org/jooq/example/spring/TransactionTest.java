@@ -1,42 +1,16 @@
-/**
- * Copyright (c) 2009-2016, Data Geekery GmbH (http://www.datageekery.com)
- * All rights reserved.
- * <p>
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * <p>
- * http://www.apache.org/licenses/LICENSE-2.0
- * <p>
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- * <p>
- * Other licenses:
- * -----------------------------------------------------------------------------
- * Commercial licenses for this work are available. These replace the above
- * ASL 2.0 and offer limited warranties, support, maintenance, and commercial
- * database integrations.
- * <p>
- * For more information, please visit: http://www.jooq.org/licenses
- */
-package org.jooq.example;
+package org.jooq.example.spring;
 
 import org.jooq.DSLContext;
-import org.jooq.example.spring.BookService;
-import org.jooq.example.spring.SpringTransactionProvider;
+import org.jooq.example.spring.service.BookService;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
@@ -49,21 +23,18 @@ import static org.junit.Assert.assertTrue;
 /**
  * @author Petri Kainulainen
  * @author Lukas Eder
- *
+ * @author Thomas Darimont
  * @see <a
- *      href="http://www.petrikainulainen.net/programming/jooq/using-jooq-with-spring-configuration/">http://www.petrikainulainen.net/programming/jooq/using-jooq-with-spring-configuration/</a>
+ * href="http://www.petrikainulainen.net/programming/jooq/using-jooq-with-spring-configuration/">http://www.petrikainulainen.net/programming/jooq/using-jooq-with-spring-configuration/</a>
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"/jooq-spring.xml"})
-//@TransactionConfiguration(transactionManager = "transactionManager")
+@SpringApplicationConfiguration(classes = Application.class)
 public class TransactionTest {
 
     @Autowired
     DSLContext dsl;
     @Autowired
     DataSourceTransactionManager txMgr;
-    @Autowired
-    SpringTransactionProvider txProvider;
     @Autowired
     BookService books;
 
@@ -84,14 +55,11 @@ public class TransactionTest {
             // This is a "bug". The same book is created twice, resulting in a
             // constraint violation exception
             for (int i = 0; i < 2; i++)
-                dsl.insertInto(BOOK)
-                        .set(BOOK.ID, 5)
-                        .set(BOOK.AUTHOR_ID, 1)
-                        .set(BOOK.TITLE, "Book 5")
-                        .execute();
+                dsl.insertInto(BOOK).set(BOOK.ID, 5).set(BOOK.AUTHOR_ID, 1).set(BOOK.TITLE, "Book 5").execute();
 
             Assert.fail();
         }
+
         // Upon the constraint violation, we explicitly roll back the transaction.
         catch (DataAccessException e) {
             txMgr.rollback(tx);
@@ -118,7 +86,7 @@ public class TransactionTest {
     }
 
     @Test
-    public void testJOOQTransactionsSimple() {
+    public void testjOOQTransactionsSimple() {
         boolean rollback = false;
 
         try {
@@ -127,11 +95,7 @@ public class TransactionTest {
                 // This is a "bug". The same book is created twice, resulting in a
                 // constraint violation exception
                 for (int i = 0; i < 2; i++)
-                    dsl.insertInto(BOOK)
-                            .set(BOOK.ID, 5)
-                            .set(BOOK.AUTHOR_ID, 1)
-                            .set(BOOK.TITLE, "Book 5")
-                            .execute();
+                    dsl.insertInto(BOOK).set(BOOK.ID, 5).set(BOOK.AUTHOR_ID, 1).set(BOOK.TITLE, "Book 5").execute();
 
                 Assert.fail();
             });
@@ -147,7 +111,7 @@ public class TransactionTest {
     }
 
     @Test
-    public void testJOOQTransactionsNested() {
+    public void testjOOQTransactionsNested() {
         AtomicBoolean rollback1 = new AtomicBoolean(false);
         AtomicBoolean rollback2 = new AtomicBoolean(false);
 
@@ -157,11 +121,7 @@ public class TransactionTest {
             dsl.transaction(c1 -> {
 
                 // The first insertion will work
-                dsl.insertInto(BOOK)
-                        .set(BOOK.ID, 5)
-                        .set(BOOK.AUTHOR_ID, 1)
-                        .set(BOOK.TITLE, "Book 5")
-                        .execute();
+                dsl.insertInto(BOOK).set(BOOK.ID, 5).set(BOOK.AUTHOR_ID, 1).set(BOOK.TITLE, "Book 5").execute();
 
                 assertEquals(5, dsl.fetchCount(BOOK));
 
@@ -173,11 +133,7 @@ public class TransactionTest {
 
                         // The second insertion shouldn't work
                         for (int i = 0; i < 2; i++)
-                            dsl.insertInto(BOOK)
-                                    .set(BOOK.ID, 6)
-                                    .set(BOOK.AUTHOR_ID, 1)
-                                    .set(BOOK.TITLE, "Book 6")
-                                    .execute();
+                            dsl.insertInto(BOOK).set(BOOK.ID, 6).set(BOOK.AUTHOR_ID, 1).set(BOOK.TITLE, "Book 6").execute();
 
                         Assert.fail();
                     });

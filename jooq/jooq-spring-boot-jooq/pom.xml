@@ -9,90 +9,54 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>jooq-spring-pk</artifactId>
-
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <h2.version>1.4.181</h2.version>
-    </properties>
+    <artifactId>jooq-spring-boot-jooq</artifactId>
 
     <dependencies>
-        <!-- Database access -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jdbc</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>org.jooq</groupId>
             <artifactId>jooq</artifactId>
             <version>${jooq.version}</version>
         </dependency>
-        <dependency>
-            <groupId>commons-dbcp</groupId>
-            <artifactId>commons-dbcp</artifactId>
-            <version>1.4</version>
-        </dependency>
 
-        <!-- Spring (transitive dependencies are not listed explicitly) -->
         <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-jdbc</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
-
-        <!-- Testing -->
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-test</artifactId>
-            <version>${spring.version}</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>
 
-    <build>
-        <!-- The resources element will replace available properties in all matching
-             resources. We use this to provide H2 connection configuration to various
-             configuration elements -->
-        <resources>
-            <resource>
-                <filtering>true</filtering>
-                <directory>src/main/resources</directory>
-                <includes>
-                    <include>**/*.xml</include>
-                </includes>
-            </resource>
-        </resources>
+    <dependencyManagement>
+        <dependencies>
+            <!-- Override Spring Data release train provided by Spring Boot -->
+            <dependency>
+                <groupId>org.springframework.data</groupId>
+                <artifactId>spring-data-releasetrain</artifactId>
+                <version>Hopper-SR2</version>
+                <scope>import</scope>
+                <type>pom</type>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
+    <build>
         <plugins>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.3</version>
-                <configuration>
-                    <fork>true</fork>
-                    <maxmem>1024m</maxmem>
-                    <meminitial>256m</meminitial>
-                    <encoding>UTF-8</encoding>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                    <debug>true</debug>
-                    <debuglevel>lines,vars,source</debuglevel>
-                    <!-- [#2413] Make compiler warnings a bit more visible
-                         But don't fail (yet) -->
-                    <compilerArgs>
-                        <arg>-Xlint:varargs</arg>
-                    </compilerArgs>
-                </configuration>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
 
-            <!-- We're using the properties plugin to load external properties into Maven.
-                 See this excellent blog post for an explanation:
-                 http://www.petrikainulainen.net/programming/tips-and-tricks/creating-profile-specific-configuration-files-with-maven/ -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>properties-maven-plugin</artifactId>
@@ -105,36 +69,38 @@
                         </goals>
                         <configuration>
                             <files>
-                                <file>src/main/resources/config.properties</file>
+                                <file>src/main/resources/application.properties</file>
                             </files>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
 
+
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>sql-maven-plugin</artifactId>
-                <version>1.5</version>
+                <version>${plugin.sql.version}</version>
                 <configuration>
                     <skip>${maven.test.skip}</skip>
                 </configuration>
+
                 <executions>
                     <execution>
-                        <id>create-database</id>
+                        <id>create-database-h2</id>
                         <phase>generate-sources</phase>
                         <goals>
                             <goal>execute</goal>
                         </goals>
                         <configuration>
-                            <driver>${db.driver}</driver>
-                            <url>${db.url}</url>
-                            <username>${db.username}</username>
-                            <password>${db.password}</password>
+                            <driver>${spring.datasource.driverClassName}</driver>
+                            <url>${spring.datasource.url}</url>
+                            <username>${spring.datasource.username}</username>
+                            <password>${spring.datasource.password}</password>
 
                             <autocommit>true</autocommit>
                             <srcFiles>
-                                <srcFile>src/main/resources/${db.schema.script}</srcFile>
+                                <srcFile>src/main/resources/db-mysql.sql</srcFile>
                             </srcFiles>
                         </configuration>
                     </execution>
@@ -163,16 +129,21 @@
                         </goals>
                         <configuration>
                             <jdbc>
-                                <driver>${db.driver}</driver>
-                                <url>${db.url}</url>
-                                <user>${db.username}</user>
-                                <password>${db.password}</password>
+                                <driver>${spring.datasource.driverClassName}</driver>
+                                <url>${spring.datasource.url}</url>
+                                <user>${spring.datasource.username}</user>
+                                <password>${spring.datasource.password}</password>
                             </jdbc>
                             <generator>
                                 <database>
-                                    <inputSchema>${db.name}</inputSchema>
+                                    <name>org.jooq.util.mysql.MySQLDatabase</name>
+                                    <includes>.*</includes>
+                                    <excludes></excludes>
+                                    <dateAsTimestamp>true</dateAsTimestamp>
+                                    <inputSchema>${jooq.generator.db}</inputSchema>
                                 </database>
                                 <generate>
+                                    <deprecated>false</deprecated>
                                     <instanceFields>true</instanceFields>
                                     <pojos>true</pojos>
                                     <daos>true</daos>
@@ -180,16 +151,22 @@
                                 </generate>
                                 <target>
                                     <packageName>org.jooq.example.db</packageName>
-                                    <directory>src/generated-sources</directory>
+                                    <directory>target/generated-sources</directory>
                                 </target>
                             </generator>
                         </configuration>
                     </execution>
                 </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>mysql</groupId>
+                        <artifactId>mysql-connector-java</artifactId>
+                        <version>${mysql.version}</version>
+                    </dependency>
+                </dependencies>
             </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
-                <!--构建时的瑞士军刀，将输出目录配置为源码目录-->
                 <artifactId>build-helper-maven-plugin</artifactId>
                 <version>1.12</version>
                 <executions>
@@ -201,7 +178,7 @@
                         </goals>
                         <configuration>
                             <sources>
-                                <source>src/generated-sources</source>
+                                <source>target/generated-sources</source>
                             </sources>
                         </configuration>
                     </execution>

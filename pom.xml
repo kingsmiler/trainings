@@ -15,6 +15,7 @@
         <maven.test.skip>true</maven.test.skip>
 
         <spring.version>4.3.2.RELEASE</spring.version>
+        <spring-boot.version>1.4.0.RELEASE</spring-boot.version>
         <springockito.version>1.0.9</springockito.version>
         <jmock.version>2.6.0</jmock.version>
         <powermock.version>1.5.4</powermock.version>
@@ -49,6 +50,7 @@
         <plugin.xml.version>1.0.1</plugin.xml.version>
         <plugin.war.version>2.6</plugin.war.version>
         <plugin.wagon.version>1.0</plugin.wagon.version>
+        <plugin.sql.version>1.5</plugin.sql.version>
 
     </properties>
 
