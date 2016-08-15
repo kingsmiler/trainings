@@ -117,7 +117,7 @@
                 <artifactId>sql-maven-plugin</artifactId>
                 <version>1.5</version>
                 <configuration>
-                    <skip>${maven.test.skip}</skip>
+                    <skip>false</skip>
                 </configuration>
                 <executions>
                     <execution>
