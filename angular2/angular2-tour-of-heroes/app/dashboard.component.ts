@@ -1,8 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-
-import { Hero } from './hero';
-import { HeroService } from './hero.service';
+import {Component, OnInit} from "@angular/core";
+import {Router} from "@angular/router";
+import {Hero} from "./hero";
+import {HeroService} from "./hero.service";
 
 @Component({
     selector: 'my-dashboard',
@@ -10,12 +9,10 @@ import { HeroService } from './hero.service';
     styleUrls: ['app/dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
-
     heroes: Hero[] = [];
 
-    constructor(
-        private router: Router,
-        private heroService: HeroService) {
+    constructor(private router: Router,
+                private heroService: HeroService) {
     }
 
     ngOnInit() {
